@@ -41,6 +41,8 @@ public class GameScreen implements Screen
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.position.set((player.getX()+(player.getWidth()/2)), (player.getY()+(player.getHeight()/2)),(0));
+        camera.update();
         renderer.setView(camera);
         renderer.render();
 
@@ -51,9 +53,8 @@ public class GameScreen implements Screen
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth=width;
-        camera.viewportHeight=height;
-        camera.update();
+        camera.viewportWidth=width/2f;
+        camera.viewportHeight=height/2f;
     }
 
     @Override

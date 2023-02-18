@@ -47,7 +47,9 @@ public class GameScreen implements Screen
         renderer.render();
 
         renderer.getBatch().begin();
+        renderer.renderTileLayer((TiledMapTileLayer) tiledMap.getLayers().get("background"));
         player.draw(renderer.getBatch());
+        renderer.renderTileLayer((TiledMapTileLayer) tiledMap.getLayers().get("foreground"));
         renderer.getBatch().end();
     }
 

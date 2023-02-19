@@ -11,7 +11,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.tofa.game.PlayThreadsOfFate;
-import com.tofa.game.entities.PlayerCharacter;
+import com.tofa.game.entities.Entity;
+import com.tofa.game.entities.player.PlayerCharacterGroundEntity;
+import com.tofa.game.entities.ai.enemies.SkeletonWarrior;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen
 {
@@ -19,11 +23,12 @@ public class GameScreen implements Screen
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
-    private PlayerCharacter player;
+    private PlayerCharacterGroundEntity player;
+    private final ArrayList<Entity> entityArrayList = new ArrayList<>();
+    private boolean firstTime = true;
 
     public GameScreen (final PlayThreadsOfFate game) {
         this.game=game;
-
     }
 
     @Override
@@ -32,10 +37,11 @@ public class GameScreen implements Screen
 
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new OrthographicCamera();
-
-        player = new PlayerCharacter(new Sprite(new Texture("sprites/warrior.png")), (TiledMapTileLayer)(tiledMap.getLayers().get(0)));
+        if(firstTime) {
+            firstTime= false;
+            runGame();
+        }
     }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
@@ -48,36 +54,59 @@ public class GameScreen implements Screen
 
         renderer.getBatch().begin();
         renderer.renderTileLayer((TiledMapTileLayer) tiledMap.getLayers().get("background"));
-        player.draw(renderer.getBatch());
+        renderer.renderTileLayer((TiledMapTileLayer) tiledMap.getLayers().get("middleground"));
+        entityArrayList.forEach(entity -> entity.draw(renderer.getBatch()));
         renderer.renderTileLayer((TiledMapTileLayer) tiledMap.getLayers().get("foreground"));
         renderer.getBatch().end();
     }
-
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth=width/2f;
-        camera.viewportHeight=height/2f;
+        camera.viewportWidth=width/1.4f;
+        camera.viewportHeight=height/1.4f;
     }
-
     @Override
     public void pause() {
 
     }
-
     @Override
     public void resume() {
 
     }
-
     @Override
     public void hide() {
         dispose();
     }
-
     @Override
     public void dispose() {
         tiledMap.dispose();
         renderer.dispose();
-        player.getTexture().dispose();
+        entityArrayList.forEach(entity -> entity.getTexture().dispose());
+    }
+    //Start of game logic area?
+    public void runGame() {
+        player = new PlayerCharacterGroundEntity(
+                new Sprite(new Texture("sprites/player/warrior.png")), (TiledMapTileLayer)(tiledMap.getLayers().get("foreground")),
+                1,1,
+                60*2f, 100);
+        entityArrayList.add(player);
+        /*
+        Make a system such that it can
+            be either random or fixed location
+            and random or fixed enemy type (orcs or skeletons)
+            and random or fixed enemy variant (warrior or mage etc.)
+         */
+        spawnSkeletonWarriorAt(5,5);
+        spawnSkeletonWarriorAt(15,5);
+    }
+    public void spawnSkeletonWarriorAt(int xSpawnTile, int ySpawnTile) {
+        if(xSpawnTile<tiledMap.getProperties().get("width", Integer.class)
+                && ySpawnTile<tiledMap.getProperties().get("height", Integer.class)
+                && xSpawnTile >= 0 && ySpawnTile >= 0) {
+            SkeletonWarrior testEnemy = new SkeletonWarrior(
+                    new Sprite(new Texture("sprites/enemies/skeletonWarrior.png")), (TiledMapTileLayer) (tiledMap.getLayers().get("foreground")),
+                    xSpawnTile, ySpawnTile,
+                    player);
+            entityArrayList.add(testEnemy);
+        }
     }
 }

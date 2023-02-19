@@ -8,6 +8,7 @@ import com.tofa.game.screens.MainMenuScreen;
 public class PlayThreadsOfFate extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
+	public static final String TITLE = "Threads of Fate: Aethoria", VERSION = "v0.0.0.2";
 
 	@Override
 	public void create () {

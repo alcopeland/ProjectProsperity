@@ -3,6 +3,13 @@ package com.tofa.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.tofa.game.PlayThreadsOfFate;
 
@@ -10,7 +17,6 @@ public class MainMenuScreen implements Screen
 {
     final PlayThreadsOfFate game;
     private final OrthographicCamera camera;
-
 
     public MainMenuScreen(final PlayThreadsOfFate game) {
         this.game=game;

@@ -9,18 +9,18 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Entity extends Sprite
 {
     protected Vector2 movementVelocity = new Vector2(0,0);
-    protected float movementSpeed, health;
+    protected float currentHealth, maxHealth;
     private final TiledMapTileLayer backgroundLayer;
 
     public Entity(Sprite sprite, TiledMapTileLayer backgroundLayer,
                   int xSpawnTile, int ySpawnTile,
-                  float movementSpeed, float health) {
+                  float health) {
         super(sprite);
         //System.out.println("Entity");
 
         this.backgroundLayer = backgroundLayer;
-        this.movementSpeed=movementSpeed;
-        this.health=health;
+        this.currentHealth=health;
+        this.maxHealth=health;
 
         setSpawnPoint(xSpawnTile,ySpawnTile);
     }
@@ -30,8 +30,6 @@ public abstract class Entity extends Sprite
         super.draw(batch);
     }
     abstract public void update(float delta);
-    abstract public void setVelocity();
-    abstract public void move(float delta);
     public void setSpawnPoint(int xTileNo, int yTileNo){
         this.setX(xTileNo*backgroundLayer.getTileWidth());
         this.setY(yTileNo*backgroundLayer.getTileHeight());

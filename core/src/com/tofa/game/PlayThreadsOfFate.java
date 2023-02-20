@@ -35,5 +35,7 @@ public class PlayThreadsOfFate extends Game {
 	public void resume() { super.resume(); }
 
 	@Override
-	public void resize(int width, int height) { super.resize(width, height); }
+	public void resize(int width, int height) {
+		super.resize(width, height);
+	}
 }

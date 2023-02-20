@@ -27,10 +27,36 @@ public class SkeletonWarrior extends EnemyAIGroundEntity
     }
 
     @Override
+    public void setVelocity() {
+        float xDist = Math.abs((target.getX()-this.getX()));
+        float yDist = Math.abs((target.getY()-this.getY()));
+        float xSpeed = movementSpeed * ((xDist)/(xDist+yDist));
+        float ySpeed = movementSpeed * ((yDist)/(xDist+yDist));
+
+        if(target.getX()<this.getX()) {
+            movementVelocity.x = -xSpeed;
+        } else if(target.getX()>this.getX()) {
+            movementVelocity.x = xSpeed;
+        }
+        if(target.getY()<this.getY()) {
+            movementVelocity.y = -ySpeed;
+        } else if(target.getY()>this.getY()) {
+            movementVelocity.y = ySpeed;
+        }
+    }
+    @Override
     public void attack() {
         if(TimeUtils.nanoTime() - lastAttackTime > 1000000000) {
             System.out.println("attack");
             lastAttackTime = TimeUtils.nanoTime();
         }
+    }
+    @Override
+    public boolean checkHealth() {
+        return currentHealth <= 0;
+    }
+    @Override
+    public void die() {
+
     }
 }

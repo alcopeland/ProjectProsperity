@@ -2,9 +2,9 @@ package com.tofa.game.entities.ai.classifications;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.tofa.game.entities.Entity;
+import com.tofa.game.entities.MovingEntity;
 
-public abstract class GroundEntity extends Entity
+public abstract class GroundEntity extends MovingEntity
 {
     protected final TiledMapTileLayer collisionLayer;
     public GroundEntity(Sprite sprite, TiledMapTileLayer collisionLayer,
@@ -16,7 +16,6 @@ public abstract class GroundEntity extends Entity
         //System.out.println("Ground Entity");
 
         this.collisionLayer=collisionLayer;
-        System.out.println(collisionLayer);
     }
 
     public boolean xCollisionDetection() {

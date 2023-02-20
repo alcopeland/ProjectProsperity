@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.tofa.game.entities.ai.classifications.Damageable;
 import com.tofa.game.entities.ai.classifications.GroundEntity;
 
-public class PlayerCharacterGroundEntity extends GroundEntity
+public class PlayerCharacterGroundEntity extends GroundEntity implements Damageable
 {
     public PlayerCharacterGroundEntity(Sprite sprite, TiledMapTileLayer collisionLayer,
                                  int xSpawnTile, int ySpawnTile,
@@ -37,5 +38,26 @@ public class PlayerCharacterGroundEntity extends GroundEntity
     public void move(float delta) {
         this.setX(getX() + movementVelocity.x * delta);
         this.setY(getY() + movementVelocity.y * delta);
+    }
+
+    @Override
+    public void receiveDamage(float damage) {
+        currentHealth = currentHealth - damage;
+    }
+    @Override
+    public boolean checkHealth() {
+        return false;
+    }
+    @Override
+    public void die() {
+
+    }
+    @Override
+    public void updateHealthBar() {
+        if(currentHealth==maxHealth) {
+
+        } else {
+            float healthRatio = currentHealth/maxHealth;
+        }
     }
 }
